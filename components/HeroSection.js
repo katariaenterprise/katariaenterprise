@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 
 export default function HeroSection() {
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
+  const [arrowVisible, setArrowVisible] = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -26,13 +26,16 @@ export default function HeroSection() {
     };
 
     // Fire only on actual scroll changes — no RAF spam
-    const unsubscribe = scrollYProgress.on("change", scrub);
+    const unsubscribe = scrollYProgress.on("change", (v) => {
+      scrub(v);
+      setArrowVisible(v < 0.02);
+    });
     return unsubscribe;
   }, [scrollYProgress]);
 
   return (
     <section ref={sectionRef} className="relative h-[300vh]">
-      <div className="sticky top-0 h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+      <div className="sticky top-0 h-[100dvh] min-h-[600px] flex items-center justify-center overflow-hidden">
 
         {/* HTML5 video — scroll-scrubbed via currentTime */}
         <video
@@ -77,6 +80,8 @@ export default function HeroSection() {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
+          initial={{ opacity: 1 }}
+          style={{ opacity: arrowVisible ? 1 : 0, transition: "opacity 0.3s" }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
           <ChevronDown className="text-primary-foreground/60" size={32} />
