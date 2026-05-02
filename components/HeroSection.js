@@ -72,11 +72,6 @@ export default function HeroSection() {
           >
             Powering India's supply chain with reliable logistics, smart warehousing and an expansive distribution network across 7+ states.
           </motion.p>
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.8 }}>
-            <Button size="lg" className="gradient-red text-primary-foreground font-heading font-bold text-base px-8 py-6 hover-lift" asChild>
-              <a href="#about-us">Explore More</a>
-            </Button>
-          </motion.div>
         </div>
 
         <motion.div
