@@ -113,7 +113,7 @@ export default function MediaPage() {
         </section>
 
         {/* ── Videos ── */}
-        <section className="section-padding bg-secondary">
+        {/* <section className="section-padding bg-secondary">
           <div className="container mx-auto">
             <AnimatedSection className="text-center mb-12">
               <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">
@@ -152,7 +152,7 @@ export default function MediaPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* ── YouTube CTA ── */}
         {/* <section className="section-padding">

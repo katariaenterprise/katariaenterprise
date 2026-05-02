@@ -7,7 +7,7 @@ import NetworkSection from "@/components/NetworkSection";
 import ClientsSection from "@/components/ClientsSection";
 import AwardsSection from "@/components/AwardsSection";
 import FleetSection from "@/components/FleetSection";
-import MediaSection from "@/components/MediaSection";
+// import MediaSection from "@/components/MediaSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -24,7 +24,7 @@ export default function Home() {
         <ClientsSection />
         <AwardsSection />
         <FleetSection />
-        <MediaSection />
+        {/* <MediaSection /> */}
         <ContactSection />
       </main>
       <Footer />
