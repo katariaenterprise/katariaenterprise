@@ -97,7 +97,7 @@ export default function ContactSection() {
         </AnimatedSection>
 
         <AnimatedSection delay={0.15}>
-          <div className="rounded-2xl overflow-hidden shadow-lg w-full h-[460px]">
+          <div className="rounded-2xl overflow-hidden shadow-lg w-full h-[300px] md:h-[460px]">
             <iframe
               key={active}
               src={branch.mapSrc}

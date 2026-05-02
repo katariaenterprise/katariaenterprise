@@ -36,16 +36,16 @@ export default function AwardsSection() {
           <h2 className="section-title">Awards & Recognitions</h2>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10">
           {awards.map((a, i) => (
             <AnimatedSection key={a.title} delay={i * 0.15}>
-              <div className="bg-card border border-border rounded-2xl p-8 hover-lift h-full flex flex-col gap-4">
+              <div className="bg-card border border-border rounded-2xl p-6 md:p-8 hover-lift h-full flex flex-col gap-4">
                 <div className="flex items-start justify-between">
-                  <div className="w-14 h-14 rounded-xl gradient-red flex items-center justify-center shrink-0">
-                    <a.icon className="text-primary-foreground" size={26} />
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl gradient-red flex items-center justify-center shrink-0">
+                    <a.icon className="text-primary-foreground" size={22} />
                   </div>
                   <span
-                    className="font-heading font-black text-5xl leading-none select-none"
+                    className="font-heading font-black text-4xl md:text-5xl leading-none select-none"
                     style={{ WebkitTextStroke: "1.5px hsl(var(--primary))", color: "transparent" }}
                   >
                     {a.year}
@@ -53,7 +53,7 @@ export default function AwardsSection() {
                 </div>
                 <div>
                   <p className="text-primary font-heading font-semibold text-xs uppercase tracking-widest mb-1">{a.org}</p>
-                  <h3 className="font-heading font-bold text-xl text-foreground mb-2">{a.title}</h3>
+                  <h3 className="font-heading font-bold text-base md:text-xl text-foreground mb-2">{a.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{a.desc}</p>
                 </div>
               </div>

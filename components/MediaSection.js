@@ -17,18 +17,18 @@ export default function MediaSection() {
           <h2 className="section-title">Delivering Trust Nationwide</h2>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
           {videos.map((v, i) => (
             <AnimatedSection key={i} delay={i * 0.15}>
               <div className="group relative rounded-xl overflow-hidden cursor-pointer hover-lift aspect-video bg-foreground/10">
-                <Image src={v.thumbnail} alt={v.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                <Image src={v.thumbnail} alt={v.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="text-primary-foreground ml-1" size={24} />
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Play className="text-primary-foreground ml-1" size={22} />
                   </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-primary-foreground font-heading font-semibold text-sm">{v.title}</p>
+                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                  <p className="text-primary-foreground font-heading font-semibold text-xs md:text-sm">{v.title}</p>
                 </div>
               </div>
             </AnimatedSection>

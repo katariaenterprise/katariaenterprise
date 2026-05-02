@@ -16,15 +16,15 @@ export default function ServicesSection() {
           <h2 className="section-title">Our Services</h2>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {services.map((s, i) => (
             <AnimatedSection key={s.title} delay={i * 0.15}>
-              <div className="group relative rounded-xl overflow-hidden h-80 hover-lift cursor-pointer">
+              <div className="group relative rounded-xl overflow-hidden h-64 md:h-80 hover-lift cursor-pointer">
                 <Image src={s.image} alt={s.title} fill className="object-cover hover-zoom" sizes="(max-width: 768px) 100vw, 33vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="font-heading font-bold text-xl text-primary-foreground mb-2">{s.title}</h3>
-                  <p className="text-primary-foreground/70 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">{s.desc}</p>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="font-heading font-bold text-lg md:text-xl text-primary-foreground mb-1">{s.title}</h3>
+                  <p className="text-primary-foreground/80 text-xs md:text-sm md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">{s.desc}</p>
                 </div>
               </div>
             </AnimatedSection>

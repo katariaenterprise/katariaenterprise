@@ -38,7 +38,7 @@ export default function AboutSection() {
   return (
     <section id="about-us" className="section-padding">
       <div className="container mx-auto">
-        <AnimatedSection className="text-center mb-12">
+        <AnimatedSection className="text-center mb-10">
           <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-3">
             About Us
           </p>
@@ -46,7 +46,7 @@ export default function AboutSection() {
             Delivering Value Through Smart Logistics Innovation
           </h2>
           <p
-            className="font-heading font-black text-6xl md:text-8xl lg:text-9xl leading-none mb-4 select-none"
+            className="font-heading font-black text-5xl md:text-8xl lg:text-9xl leading-none mb-4 select-none"
             style={{
               WebkitTextStroke: "2px hsl(var(--primary))",
               color: "transparent",
@@ -56,15 +56,15 @@ export default function AboutSection() {
           </p>
         </AnimatedSection>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {stats.map((s, i) => (
             <AnimatedSection key={s.label} delay={i * 0.1}>
-              <div className="flex flex-col items-center text-center gap-4 p-8 rounded-2xl bg-secondary hover-lift">
-                <div className="w-14 h-14 rounded-xl gradient-red flex items-center justify-center">
-                  <s.icon className="text-primary-foreground" size={26} />
+              <div className="flex flex-col items-center text-center gap-3 p-5 md:p-8 rounded-2xl bg-secondary hover-lift">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl gradient-red flex items-center justify-center">
+                  <s.icon className="text-primary-foreground" size={22} />
                 </div>
-                <p className="font-heading font-black text-4xl text-foreground"><CountUp value={s.value} /></p>
-                <p className="text-muted-foreground text-sm font-body">{s.label}</p>
+                <p className="font-heading font-black text-3xl md:text-4xl text-foreground"><CountUp value={s.value} /></p>
+                <p className="text-muted-foreground text-xs md:text-sm font-body">{s.label}</p>
               </div>
             </AnimatedSection>
           ))}

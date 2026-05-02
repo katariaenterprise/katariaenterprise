@@ -19,27 +19,33 @@ export default function StorySection() {
         </AnimatedSection>
 
         <div className="relative max-w-4xl mx-auto">
-          {/* Vertical line */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-border hidden md:block" />
+          {/* Vertical line — desktop center, mobile left */}
+          <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-border" />
 
-          <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-8 md:gap-12">
             {milestones.map((m, i) => (
               <AnimatedSection key={m.year} delay={i * 0.15}>
-                <div className={`flex flex-col md:flex-row items-center gap-6 md:gap-12 ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-                  {/* Content card */}
+                {/* Mobile: all left-aligned with left timeline */}
+                <div className="flex gap-4 md:hidden pl-2">
+                  <div className="w-6 h-6 rounded-full gradient-red border-4 border-background shrink-0 z-10 mt-1" />
+                  <div className="bg-background border border-border rounded-2xl p-5 flex-1 hover-lift">
+                    <p className="font-heading font-black text-3xl text-primary/20 leading-none mb-1">{m.year}</p>
+                    <h3 className="font-heading font-bold text-base text-foreground mb-1">{m.title}</h3>
+                    <p className="text-muted-foreground text-xs leading-relaxed">{m.desc}</p>
+                  </div>
+                </div>
+
+                {/* Desktop: alternating */}
+                <div className={`hidden md:flex flex-row items-center gap-12 ${i % 2 !== 0 ? "flex-row-reverse" : ""}`}>
                   <div className="flex-1">
-                    <div className="bg-background border border-border rounded-2xl p-6 md:p-8 hover-lift">
+                    <div className="bg-background border border-border rounded-2xl p-8 hover-lift">
                       <p className="font-heading font-black text-5xl text-primary/20 leading-none mb-2">{m.year}</p>
                       <h3 className="font-heading font-bold text-xl text-foreground mb-2">{m.title}</h3>
                       <p className="text-muted-foreground text-sm leading-relaxed">{m.desc}</p>
                     </div>
                   </div>
-
-                  {/* Center dot */}
-                  <div className="hidden md:flex w-5 h-5 rounded-full gradient-red border-4 border-background shrink-0 z-10" />
-
-                  {/* Year badge (opposite side) */}
-                  <div className="flex-1 hidden md:flex">
+                  <div className="w-5 h-5 rounded-full gradient-red border-4 border-background shrink-0 z-10" />
+                  <div className="flex-1 flex">
                     <span
                       className={`font-heading font-black text-7xl leading-none select-none ${i % 2 !== 0 ? "text-right w-full" : ""}`}
                       style={{ WebkitTextStroke: "1.5px hsl(var(--primary))", color: "transparent" }}

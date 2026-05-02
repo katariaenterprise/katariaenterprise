@@ -63,15 +63,15 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-primary-foreground leading-tight mb-6"
+            className="text-3xl md:text-6xl lg:text-7xl font-heading font-black text-primary-foreground leading-tight mb-4 md:mb-6"
           >
-            KATARIA ENTERPRISE{/*<span className="text-primary">ENTERPRISE</span>*/}
+            KATARIA ENTERPRISE
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="text-primary-foreground/70 text-base md:text-lg max-w-2xl mx-auto mb-8"
+            className="text-primary-foreground/70 text-sm md:text-lg max-w-2xl mx-auto mb-8 px-2"
           >
             Powering India's supply chain with reliable logistics, smart warehousing and an expansive distribution network across 7+ states.
           </motion.p>
