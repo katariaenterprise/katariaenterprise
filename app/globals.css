@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Cooper Black';
+  src: url('/assets/fonts/CooperBlack.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+    --primary: 0 72% 51%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 13%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 36 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 72% 51%;
+    --radius: 0.5rem;
+  }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground font-body antialiased; }
+  h1, h2, h3, h4, h5, h6 { @apply font-heading; }
+  html { scroll-behavior: auto; } /* Lenis handles smooth scrolling */
+}
+
+@keyframes road-scroll {
+  from { background-position: 0 center; }
+  to   { background-position: 48px center; }
+}
+
+@layer components {
+  .section-padding { @apply py-16 md:py-24 px-4 md:px-8; }
+  .section-title { @apply text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-foreground; }
+  .section-subtitle { @apply text-muted-foreground text-base md:text-lg max-w-2xl; }
+  .hover-lift { @apply transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl; }
+  .hover-zoom { @apply transition-transform duration-500 ease-out hover:scale-110; }
+  .gradient-red { @apply bg-gradient-to-br from-primary to-[hsl(0,72%,40%)]; }
+}
