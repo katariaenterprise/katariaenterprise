@@ -46,10 +46,10 @@ const photos = [
   { src: "/assets/company-building.jpg", alt: "Corporate Office Rajkot", aspect: "aspect-video" },
   { src: "/assets/media/Corporate_Yoga.jpg", alt: "CORPORATE YOGA", aspect: "aspect-video" },
   { src: "/assets/media/26th_January.jpg", alt: "26th JANUARY", aspect: "aspect-[4/3]" },
-  { src: "/assets/distribution.PNG", alt: "DISTRIBUTION NETWORK", aspect: "aspect-square" },
+  { src: "/assets/distribution.png", alt: "DISTRIBUTION NETWORK", aspect: "aspect-square" },
   { src: "/assets/hero-trucks2.jpeg", alt: "NEW TRUCKS", aspect: "aspect-video" },
   { src: "/assets/media/Eye_Checkup.jpg", alt: "HEALTH & EYE CHECKUP", aspect: "aspect-video" },
-  { src: "/assets/media/Milestone_Achievement.jpg", alt: "ACHIEVEMENT CELEBRATION", aspect: "aspect-video" },
+  { src: "/assets/media/Milestone_Achievement.JPG", alt: "ACHIEVEMENT CELEBRATION", aspect: "aspect-video" },
 ];
 
 export default function MediaPage() {
