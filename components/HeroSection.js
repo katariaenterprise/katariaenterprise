@@ -82,7 +82,7 @@ export default function HeroSection() {
           transition={{ repeat: Infinity, duration: 2 }}
           initial={{ opacity: 1 }}
           style={{ opacity: arrowVisible ? 1 : 0, transition: "opacity 0.3s" }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-50% -translate-x-1/2"
         >
           <ChevronDown className="text-primary-foreground/60" size={32} />
         </motion.div>
