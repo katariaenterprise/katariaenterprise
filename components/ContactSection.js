@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
 import { Mail, Phone, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -37,9 +38,21 @@ const branches = [
 const EMAIL = "contact@katariaenterprise.com";
 const PHONE = "9824283794 / 9824283795";
 
+const slideVariants = {
+  enter: (dir) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
+  center:       ({ x: 0, opacity: 1 }),
+  exit:  (dir) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
+};
+
 export default function ContactSection() {
   const [active, setActive] = useState(0);
+  const [dir, setDir] = useState(1);
   const branch = branches[active];
+
+  function go(next) {
+    setDir(next > active || (active === branches.length - 1 && next === 0) ? 1 : -1);
+    setActive(next);
+  }
 
   return (
     <section id="contact" className="section-padding bg-secondary">
@@ -52,20 +65,30 @@ export default function ContactSection() {
 
         <AnimatedSection>
           <div className="flex items-start justify-between gap-4 mb-2">
-            <div>
-              <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">{branch.label}</p>
-              <h3 className="font-heading font-black text-2xl md:text-3xl text-foreground">{branch.heading}</h3>
-            </div>
+            <AnimatePresence mode="wait" custom={dir}>
+              <motion.div
+                key={active + "-heading"}
+                custom={dir}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+              >
+                <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">{branch.label}</p>
+                <h3 className="font-heading font-black text-2xl md:text-3xl text-foreground">{branch.heading}</h3>
+              </motion.div>
+            </AnimatePresence>
             {/* Prev / Next */}
             <div className="flex gap-2 shrink-0 mt-1">
               <button
-                onClick={() => setActive((p) => (p - 1 + branches.length) % branches.length)}
+                onClick={() => go((active - 1 + branches.length) % branches.length)}
                 className="w-10 h-10 rounded-full gradient-red flex items-center justify-center text-primary-foreground hover:opacity-90 transition-opacity"
               >
                 <ChevronLeft size={20} />
               </button>
               <button
-                onClick={() => setActive((p) => (p + 1) % branches.length)}
+                onClick={() => go((active + 1) % branches.length)}
                 className="w-10 h-10 rounded-full gradient-red flex items-center justify-center text-primary-foreground hover:opacity-90 transition-opacity"
               >
                 <ChevronRight size={20} />
@@ -73,43 +96,65 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <p className="text-muted-foreground text-sm mb-5 max-w-md">{branch.address}</p>
+          <AnimatePresence mode="wait" custom={dir}>
+            <motion.div
+              key={active}
+              custom={dir}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+            >
+              <p className="text-muted-foreground text-sm mb-5 max-w-md">{branch.address}</p>
 
-          <div className="flex flex-col gap-3 mb-5">
-            <a href={`mailto:${EMAIL}`} className="flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors">
-              <Mail size={16} className="text-muted-foreground" />
-              {EMAIL}
-            </a>
-            <a href={`tel:9824283794`} className="flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors">
-              <Phone size={16} className="text-muted-foreground" />
-              {PHONE}
-            </a>
-          </div>
+              <div className="flex flex-col gap-3 mb-5">
+                <a href={`mailto:${EMAIL}`} className="flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors">
+                  <Mail size={16} className="text-muted-foreground" />
+                  {EMAIL}
+                </a>
+                <a href={`tel:9824283794`} className="flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors">
+                  <Phone size={16} className="text-muted-foreground" />
+                  {PHONE}
+                </a>
+              </div>
 
-          <a
-            href={branch.directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:underline mb-8"
-          >
-            Directions <ArrowUpRight size={16} />
-          </a>
+              <a
+                href={branch.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-primary font-semibold text-sm hover:underline mb-8"
+              >
+                Directions <ArrowUpRight size={16} />
+              </a>
+            </motion.div>
+          </AnimatePresence>
         </AnimatedSection>
 
         <AnimatedSection delay={0.15}>
-          <div className="rounded-2xl overflow-hidden shadow-lg w-full h-[300px] md:h-[460px]">
-            <iframe
+          <AnimatePresence mode="wait" custom={dir}>
+            <motion.div
               key={active}
-              src={branch.mapSrc}
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title={branch.heading}
-            />
-          </div>
+              custom={dir}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="rounded-2xl overflow-hidden shadow-lg w-full h-[300px] md:h-[460px]"
+            >
+              <iframe
+                src={branch.mapSrc}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={branch.heading}
+              />
+            </motion.div>
+          </AnimatePresence>
         </AnimatedSection>
 
         {/* Branch dots indicator */}

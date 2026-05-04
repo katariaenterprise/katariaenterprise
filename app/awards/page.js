@@ -157,10 +157,10 @@ export default function AwardsPage() {
       <main>
 
         {/* ── Page Header ── */}
-        <section className="pt-28 pb-8 overflow-hidden">
+        <section className="pt-24 pb-6 overflow-hidden">
           <div className="text-center">
             <h1
-              className="font-heading font-black text-6xl md:text-8xl lg:text-9xl leading-none select-none"
+              className="font-heading font-black text-5xl md:text-8xl lg:text-9xl leading-none select-none"
               style={{ WebkitTextStroke: "2px hsl(var(--primary))", color: "transparent" }}
             >
               <TypewriterText text="AWARDS" speed={200} />
@@ -171,12 +171,12 @@ export default function AwardsPage() {
         {/* ── Stats Strip ── */}
         <section className="section-padding">
           <div className="container mx-auto">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {stats.map((s, i) => (
                 <AnimatedSection key={s.label} delay={i * 0.1}>
-                  <div className="flex flex-col items-center text-center gap-2 p-6 rounded-2xl bg-background hover-lift bg-secondary">
-                    <p className="font-heading font-black text-4xl text-primary">{s.value}</p>
-                    <p className="text-muted-foreground text-sm">{s.label}</p>
+                  <div className="flex flex-col items-center text-center gap-2 p-5 md:p-6 rounded-2xl bg-secondary hover-lift">
+                    <p className="font-heading font-black text-3xl md:text-4xl text-primary">{s.value}</p>
+                    <p className="text-muted-foreground text-xs md:text-sm">{s.label}</p>
                   </div>
                 </AnimatedSection>
               ))}
@@ -187,23 +187,23 @@ export default function AwardsPage() {
         {/* ── Awards Grid ── */}
         <section className="section-padding bg-secondary">
           <div className="container mx-auto">
-            <AnimatedSection className="text-center mb-12">
+            <AnimatedSection className="text-center mb-10">
               <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">
                 Our Achievements
               </p>
               <h2 className="section-title">Awards & Recognitions</h2>
             </AnimatedSection>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {awards.map((a, i) => (
-                <AnimatedSection key={a.title} delay={i * 0.1}>
-                  <div className="bg-card border border-border rounded-2xl p-8 hover-lift h-full flex flex-col gap-5">
+                <AnimatedSection key={a.title + a.year} delay={i * 0.1}>
+                  <div className="bg-card border border-border rounded-2xl p-5 md:p-8 hover-lift h-full flex flex-col gap-4 md:gap-5">
                     <div className="flex items-start justify-between">
-                      <div className="w-14 h-14 rounded-xl gradient-red flex items-center justify-center shrink-0">
-                        <a.icon className="text-primary-foreground" size={26} />
+                      <div className="w-11 h-11 md:w-14 md:h-14 rounded-xl gradient-red flex items-center justify-center shrink-0">
+                        <a.icon className="text-primary-foreground" size={20} />
                       </div>
                       <span
-                        className="font-heading font-black text-5xl leading-none select-none"
+                        className="font-heading font-black text-4xl md:text-5xl leading-none select-none"
                         style={{ WebkitTextStroke: "1.5px hsl(var(--primary))", color: "transparent" }}
                       >
                         {a.year}
@@ -211,10 +211,10 @@ export default function AwardsPage() {
                     </div>
                     <div>
                       <p className="text-primary font-heading font-semibold text-xs uppercase tracking-widest mb-1">{a.org}</p>
-                      <h3 className="font-heading font-bold text-xl text-foreground mb-3">{a.title}</h3>
-                      <div className="flex flex-col gap-2">
+                      <h3 className="font-heading font-bold text-base md:text-xl text-foreground mb-2 md:mb-3">{a.title}</h3>
+                      <div className="flex flex-col gap-1.5 md:gap-2">
                         {a.desc.map((para, j) => (
-                          <p key={j} className="text-muted-foreground text-sm leading-relaxed">{para}</p>
+                          <p key={j} className="text-muted-foreground text-xs md:text-sm leading-relaxed">{para}</p>
                         ))}
                       </div>
                     </div>

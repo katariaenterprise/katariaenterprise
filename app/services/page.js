@@ -58,10 +58,10 @@ export default function ServicesPage() {
       <main>
 
         {/* ── Page Header ── */}
-        <section className="pt-28 pb-8 overflow-hidden">
+        <section className="pt-24 pb-6 overflow-hidden">
           <div className="text-center">
             <h1
-              className="font-heading font-black text-6xl md:text-8xl lg:text-9xl leading-none select-none"
+              className="font-heading font-black text-5xl md:text-8xl lg:text-9xl leading-none select-none"
               style={{ WebkitTextStroke: "2px hsl(var(--primary))", color: "transparent" }}
             >
               <TypewriterText text="SERVICES" speed={200} />
@@ -72,13 +72,13 @@ export default function ServicesPage() {
         {/* ── Service Detail Cards ── */}
         <section className="section-padding">
           <div className="container mx-auto">
-            <div className="flex flex-col gap-24">
+            <div className="flex flex-col gap-12 md:gap-24">
               {services.map((s, i) => (
                 <AnimatedSection key={s.title + i} delay={0.1}>
-                  <div className={`grid lg:grid-cols-2 gap-12 items-center ${i % 2 !== 0 ? "lg:[&>*:first-child]:order-2" : ""}`}>
+                  <div className={`grid lg:grid-cols-2 gap-6 md:gap-12 items-center ${i % 2 !== 0 ? "lg:[&>*:first-child]:order-2" : ""}`}>
 
                     {/* Image */}
-                    <div className="relative rounded-2xl overflow-hidden h-80">
+                    <div className="relative rounded-2xl overflow-hidden h-56 md:h-80">
                       <Image
                         src={s.image}
                         alt={s.title}
@@ -87,24 +87,24 @@ export default function ServicesPage() {
                         sizes="(max-width: 1024px) 100vw, 50vw"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <div className="absolute bottom-5 left-5">
-                        <div className="w-12 h-12 rounded-xl gradient-red flex items-center justify-center">
-                          <s.icon className="text-primary-foreground" size={22} />
+                      <div className="absolute bottom-4 left-4 md:bottom-5 md:left-5">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl gradient-red flex items-center justify-center">
+                          <s.icon className="text-primary-foreground" size={18} />
                         </div>
                       </div>
                     </div>
 
                     {/* Content */}
                     <div>
-                      <h2 className="font-heading font-black text-3xl md:text-4xl text-foreground mb-4">
+                      <h2 className="font-heading font-black text-2xl md:text-4xl text-foreground mb-3 md:mb-4">
                         {s.title}
                       </h2>
-                      <div className="flex flex-col gap-3 mb-6">
+                      <div className="flex flex-col gap-3 mb-4 md:mb-6">
                         {s.desc.map((para, j) => (
                           <p key={j} className="text-muted-foreground text-sm leading-relaxed">{para}</p>
                         ))}
                       </div>
-                      <ul className="flex flex-col gap-3">
+                      <ul className="flex flex-col gap-2 md:gap-3">
                         {s.highlights.map((h) => (
                           <li key={h} className="flex items-center gap-3 text-sm text-foreground">
                             <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
@@ -124,21 +124,21 @@ export default function ServicesPage() {
         {/* ── Why Choose Us ── */}
         <section className="section-padding bg-secondary">
           <div className="container mx-auto">
-            <AnimatedSection className="text-center mb-12">
+            <AnimatedSection className="text-center mb-10">
               <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">
                 Why Us
               </p>
               <h2 className="section-title">Why Brands Choose Kataria</h2>
             </AnimatedSection>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {whyUs.map((w, i) => (
                 <AnimatedSection key={w.title} delay={i * 0.1}>
-                  <div className="bg-background border border-border rounded-2xl p-6 hover-lift h-full flex flex-col gap-4">
-                    <div className="w-12 h-12 rounded-xl gradient-red flex items-center justify-center shrink-0">
-                      <w.icon className="text-primary-foreground" size={22} />
+                  <div className="bg-background border border-border rounded-2xl p-4 md:p-6 hover-lift h-full flex flex-col gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl gradient-red flex items-center justify-center shrink-0">
+                      <w.icon className="text-primary-foreground" size={18} />
                     </div>
                     <div>
-                      <h3 className="font-heading font-bold text-base text-foreground mb-2">{w.title}</h3>
+                      <h3 className="font-heading font-bold text-sm md:text-base text-foreground mb-1 md:mb-2">{w.title}</h3>
                       <p className="text-muted-foreground text-xs leading-relaxed">{w.desc}</p>
                     </div>
                   </div>

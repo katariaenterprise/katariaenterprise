@@ -62,10 +62,10 @@ export default function MediaPage() {
       <main>
 
         {/* ── Page Header ── */}
-        <section className="pt-28 pb-8 overflow-hidden">
+        <section className="pt-24 pb-6 overflow-hidden">
           <div className="text-center">
             <h1
-              className="font-heading font-black text-6xl md:text-8xl lg:text-9xl leading-none select-none"
+              className="font-heading font-black text-5xl md:text-8xl lg:text-9xl leading-none select-none"
               style={{ WebkitTextStroke: "2px hsl(var(--primary))", color: "transparent" }}
             >
               <TypewriterText text="MEDIA" speed={200} />
@@ -76,14 +76,41 @@ export default function MediaPage() {
         {/* ── Photo Gallery ── */}
         <section className="section-padding overflow-hidden">
           <div className="container mx-auto">
-            <AnimatedSection className="text-center mb-12">
+            <AnimatedSection className="text-center mb-10">
               <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">
                 Photos
               </p>
               <h2 className="section-title">Photo Gallery</h2>
             </AnimatedSection>
 
-            <div className="columns-2 md:columns-3 gap-4 space-y-4">
+            {/* Mobile: single column */}
+            <div className="flex flex-col gap-3 md:hidden">
+              {photos.map((p, i) => (
+                <AnimatedSection key={i} delay={i * 0.08}>
+                  <div
+                    className="relative rounded-xl overflow-hidden cursor-pointer hover-lift"
+                    onClick={() => setLightbox(p)}
+                  >
+                    <Image
+                      src={p.src}
+                      alt={p.alt}
+                      width={800}
+                      height={600}
+                      className="w-full h-auto"
+                      sizes="100vw"
+                    />
+                    <div className="absolute inset-0 bg-black/30 flex items-end justify-start p-3">
+                      <span className="text-primary-foreground font-heading font-semibold text-xs leading-tight">
+                        {p.alt}
+                      </span>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+
+            {/* Desktop: masonry */}
+            <div className="hidden md:block columns-3 gap-4 space-y-4">
               {photos.map((p, i) => (
                 <div key={i} className="break-inside-avoid">
                   <AnimatedSection delay={i * 0.08}>
@@ -97,7 +124,7 @@ export default function MediaPage() {
                         width={800}
                         height={600}
                         className="w-full h-auto group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 768px) 50vw, 33vw"
+                        sizes="33vw"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                         <span className="text-primary-foreground font-heading font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity px-4 text-center">
@@ -216,17 +243,17 @@ export default function MediaPage() {
       {/* ── Photo Lightbox ── */}
       {lightbox && (
         <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-3 md:p-4"
           onClick={() => setLightbox(null)}
         >
           <button
-            className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+            className="absolute top-4 right-4 w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
             onClick={() => setLightbox(null)}
           >
-            <X className="text-white" size={20} />
+            <X className="text-white" size={18} />
           </button>
           <div
-            className="relative w-full max-w-4xl aspect-video rounded-2xl overflow-hidden"
+            className="relative w-full max-w-4xl max-h-[85dvh] rounded-xl md:rounded-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <Image src={lightbox.src} alt={lightbox.alt} fill className="object-contain" />

@@ -113,27 +113,27 @@ export default function ManagementPage() {
       <main>
 
         {/* ── Page Header ── */}
-          <section className="pt-28 pb-8 overflow-hidden">
-            <div className="text-center">
-              <h1
-                className="font-heading font-black text-6xl md:text-8xl lg:text-9xl leading-none select-none"
-                style={{ WebkitTextStroke: "2px hsl(var(--primary))", color: "transparent" }}
-              >
-                  <TypewriterText text="LEADERS" speed={200} />
-              </h1>
-            </div>
-          </section>
+        <section className="pt-24 pb-6 overflow-hidden">
+          <div className="text-center">
+            <h1
+              className="font-heading font-black text-5xl md:text-8xl lg:text-9xl leading-none select-none"
+              style={{ WebkitTextStroke: "2px hsl(var(--primary))", color: "transparent" }}
+            >
+              <TypewriterText text="LEADERS" speed={200} />
+            </h1>
+          </div>
+        </section>
 
         {/* ── Leadership Profiles ── */}
         <section className="section-padding">
           <div className="container mx-auto">
-            <div className="flex flex-col gap-20">
+            <div className="flex flex-col gap-12 md:gap-20">
               {leaders.map((l, i) => (
                 <AnimatedSection key={`${l.name}-${i}`} delay={0.1}>
-                  <div className={`grid lg:grid-cols-2 gap-12 items-center ${i % 2 !== 0 ? "lg:[&>*:first-child]:order-2" : ""}`}>
+                  <div className={`grid lg:grid-cols-2 gap-6 md:gap-12 items-center ${i % 2 !== 0 ? "lg:[&>*:first-child]:order-2" : ""}`}>
 
                     {/* Image */}
-                    <div className="relative rounded-2xl overflow-hidden h-96">
+                    <div className="relative rounded-2xl overflow-hidden h-72 md:h-96">
                       <Image
                         src={l.image}
                         alt={l.name}
@@ -141,36 +141,23 @@ export default function ManagementPage() {
                         className="object-cover object-top"
                         sizes="(max-width: 1024px) 100vw, 50vw"
                       />
-                      {/* <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                        <span className="inline-block bg-primary text-primary-foreground text-xs font-heading font-bold px-3 py-1 rounded-full">
-                          {l.experience} Experience
-                        </span>
-                      </div> */}
                     </div>
 
                     {/* Content */}
                     <div>
-                      <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">
+                      <p className="text-primary font-heading font-semibold text-xs md:text-sm uppercase tracking-widest mb-2">
                         {l.role}
                       </p>
-                      <h2 className="font-heading font-black text-3xl md:text-4xl text-foreground mb-4">
+                      <h2 className="font-heading font-black text-2xl md:text-4xl text-foreground mb-3 md:mb-4">
                         {l.name}
                       </h2>
-                      <div className="flex flex-col gap-3 mb-6">
+                      <div className="flex flex-col gap-3">
                         {l.bio.map((para, j) => (
                           <p key={j} className="text-muted-foreground text-sm leading-relaxed">
                             {para}
                           </p>
                         ))}
                       </div>
-                      {/* <ul className="flex flex-col gap-3">
-                        {l.highlights.map((h) => (
-                          <li key={h} className="flex items-start gap-3 text-sm text-foreground">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                            {h}
-                          </li>
-                        ))}
-                      </ul> */}
                     </div>
 
                   </div>
@@ -183,24 +170,24 @@ export default function ManagementPage() {
         {/* ── Departments ── */}
         <section className="section-padding bg-secondary">
           <div className="container mx-auto">
-            <AnimatedSection className="text-center mb-12">
+            <AnimatedSection className="text-center mb-10">
               <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">
                 Our Teams
               </p>
               <h2 className="section-title">Departments That Drive Us</h2>
             </AnimatedSection>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {departments.map((d, i) => (
                 <AnimatedSection key={d.name} delay={i * 0.1}>
-                  <div className="bg-background border border-border rounded-2xl p-6 hover-lift h-full flex flex-col gap-4">
-                    <div className="w-12 h-12 rounded-xl gradient-red flex items-center justify-center shrink-0">
-                      <d.icon className="text-primary-foreground" size={22} />
+                  <div className="bg-background border border-border rounded-2xl p-4 md:p-6 hover-lift h-full flex flex-col gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl gradient-red flex items-center justify-center shrink-0">
+                      <d.icon className="text-primary-foreground" size={18} />
                     </div>
                     <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-heading font-bold text-base text-foreground">{d.name}</h3>
-                        <span className="font-heading font-black text-primary text-lg">{d.headcount}</span>
+                      <div className="flex items-center justify-between mb-1 md:mb-2">
+                        <h3 className="font-heading font-bold text-sm md:text-base text-foreground">{d.name}</h3>
+                        <span className="font-heading font-black text-primary text-base md:text-lg">{d.headcount}</span>
                       </div>
                       <p className="text-muted-foreground text-xs leading-relaxed">{d.desc}</p>
                     </div>
@@ -215,17 +202,17 @@ export default function ManagementPage() {
         <section className="section-padding">
           <div className="container mx-auto">
             <AnimatedSection>
-              <div className="rounded-2xl gradient-red p-10 md:p-16 text-center">
+              <div className="rounded-2xl gradient-red p-8 md:p-16 text-center">
                 <p className="text-primary-foreground/80 font-heading font-semibold text-sm uppercase tracking-widest mb-3">
                   Together We Deliver
                 </p>
                 <p
-                  className="font-heading font-black text-7xl md:text-9xl leading-none select-none mb-4"
+                  className="font-heading font-black text-6xl md:text-9xl leading-none select-none mb-3 md:mb-4"
                   style={{ WebkitTextStroke: "2px rgba(255,255,255,0.4)", color: "transparent" }}
                 >
                   250+
                 </p>
-                <h2 className="font-heading font-black text-3xl md:text-4xl text-primary-foreground mb-4">
+                <h2 className="font-heading font-black text-2xl md:text-4xl text-primary-foreground mb-3 md:mb-4">
                   Professionals Across India
                 </h2>
                 <p className="text-primary-foreground/70 text-sm max-w-xl mx-auto">

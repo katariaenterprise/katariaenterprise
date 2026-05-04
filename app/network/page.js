@@ -115,10 +115,10 @@ export default function NetworkPage() {
       <main>
 
         {/* ── Page Header ── */}
-        <section className="pt-28 pb-8 overflow-hidden">
+        <section className="pt-24 pb-6 overflow-hidden">
           <div className="text-center">
             <h1
-              className="font-heading font-black text-6xl md:text-8xl lg:text-9xl leading-none select-none"
+              className="font-heading font-black text-5xl md:text-8xl lg:text-9xl leading-none select-none"
               style={{ WebkitTextStroke: "2px hsl(var(--primary))", color: "transparent" }}
             >
               <TypewriterText text="NETWORK" speed={200} />
@@ -129,17 +129,17 @@ export default function NetworkPage() {
         {/* ── Stats Strip ── */}
         <section className="section-padding">
           <div className="container mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {stats.map((s, i) => (
                 <AnimatedSection key={s.label} delay={i * 0.1}>
-                  <div className="flex flex-col items-center text-center gap-4 p-8 rounded-2xl bg-secondary hover-lift">
-                    <div className="w-14 h-14 rounded-xl gradient-red flex items-center justify-center">
-                      <s.icon className="text-primary-foreground" size={26} />
+                  <div className="flex flex-col items-center text-center gap-3 p-5 md:p-8 rounded-2xl bg-secondary hover-lift">
+                    <div className="w-11 h-11 md:w-14 md:h-14 rounded-xl gradient-red flex items-center justify-center">
+                      <s.icon className="text-primary-foreground" size={20} />
                     </div>
-                    <p className="font-heading font-black text-4xl text-foreground">
+                    <p className="font-heading font-black text-2xl md:text-4xl text-foreground">
                       <CountUp value={s.value} />
                     </p>
-                    <p className="text-muted-foreground text-sm font-body">{s.label}</p>
+                    <p className="text-muted-foreground text-xs md:text-sm font-body">{s.label}</p>
                   </div>
                 </AnimatedSection>
               ))}
@@ -187,19 +187,19 @@ export default function NetworkPage() {
         {/* ── States Grid ── */}
         <section className="section-padding bg-secondary">
           <div className="container mx-auto">
-            <AnimatedSection className="text-center mb-12">
+            <AnimatedSection className="text-center mb-10">
               <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-2">
                 State by State
               </p>
               <h2 className="section-title">Our Presence Across 7 States</h2>
             </AnimatedSection>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {states.map((s, i) => (
                 <AnimatedSection key={s.code} delay={i * 0.08}>
-                  <div className="bg-card border border-border rounded-2xl p-6 hover-lift h-full flex flex-col gap-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-xl bg-secondary flex items-center justify-center shrink-0 p-2">
+                  <div className="bg-card border border-border rounded-2xl p-4 md:p-6 hover-lift h-full flex flex-col gap-3 md:gap-4">
+                    <div className="flex items-center gap-3 md:gap-4">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl bg-secondary flex items-center justify-center shrink-0 p-1.5 md:p-2">
                         <Image
                           src={s.image}
                           alt={s.name}
@@ -209,15 +209,15 @@ export default function NetworkPage() {
                         />
                       </div>
                       <div>
-                        <h3 className="font-heading font-black text-xl text-foreground">{s.name}</h3>
-                        <div className="flex gap-3 mt-1">
+                        <h3 className="font-heading font-black text-lg md:text-xl text-foreground">{s.name}</h3>
+                        <div className="flex gap-2 md:gap-3 mt-1">
                           <span className="text-xs text-muted-foreground">{s.districts} Districts</span>
                           <span className="text-xs text-muted-foreground">·</span>
                           <span className="text-xs text-muted-foreground">{s.towns} Towns</span>
                         </div>
                       </div>
                     </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+                    <p className="text-muted-foreground text-xs md:text-sm leading-relaxed">{s.desc}</p>
                   </div>
                 </AnimatedSection>
               ))}
