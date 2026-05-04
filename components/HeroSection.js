@@ -19,18 +19,32 @@ export default function HeroSection() {
 
     video.pause();
 
-    const scrub = (progress) => {
-      if (video.readyState >= 2 && video.duration) {
-        video.currentTime = progress * video.duration;
+    // RAF-throttled seek: only one seek per animation frame, skip if same value
+    let rafId = null;
+    let pendingProgress = null;
+    let lastSeeked = -1;
+
+    const flushSeek = () => {
+      rafId = null;
+      if (pendingProgress === null) return;
+      const p = pendingProgress;
+      pendingProgress = null;
+      if (video.readyState >= 2 && video.duration && Math.abs(p - lastSeeked) > 0.001) {
+        video.currentTime = p * video.duration;
+        lastSeeked = p;
       }
     };
 
-    // Fire only on actual scroll changes — no RAF spam
     const unsubscribe = scrollYProgress.on("change", (v) => {
-      scrub(v);
+      pendingProgress = v;
       setArrowVisible(v < 0.02);
+      if (!rafId) rafId = requestAnimationFrame(flushSeek);
     });
-    return unsubscribe;
+
+    return () => {
+      unsubscribe();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [scrollYProgress]);
 
   return (
@@ -42,10 +56,12 @@ export default function HeroSection() {
           ref={videoRef}
           src="/assets/truck-vid-scrub.mp4"
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ willChange: "contents" }}
           muted
           playsInline
           preload="auto"
           disablePictureInPicture
+          disableRemotePlayback
         />
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
