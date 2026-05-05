@@ -3,23 +3,91 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 
+const VIDEO_SRC = "/assets/truck-vid-scrub.mp4";
+const CACHE_KEY = "ke-hero-video-v1";
+
+async function getVideoBlob(onProgress) {
+  // 1. Try Cache API first (persists across page loads)
+  if ("caches" in window) {
+    const cache = await caches.open(CACHE_KEY);
+    const cached = await cache.match(VIDEO_SRC);
+    if (cached) {
+      onProgress(100);
+      return URL.createObjectURL(await cached.blob());
+    }
+  }
+
+  // 2. Fetch with progress tracking
+  const res = await fetch(VIDEO_SRC);
+  const total = Number(res.headers.get("content-length")) || 0;
+  const reader = res.body.getReader();
+  const chunks = [];
+  let received = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    received += value.length;
+    if (total) onProgress(Math.round((received / total) * 100));
+  }
+
+  const blob = new Blob(chunks, { type: "video/mp4" });
+
+  // 3. Store in Cache API for next visit
+  if ("caches" in window) {
+    const cache = await caches.open(CACHE_KEY);
+    await cache.put(VIDEO_SRC, new Response(blob.slice(), { headers: { "content-type": "video/mp4" } }));
+  }
+
+  return URL.createObjectURL(blob);
+}
+
 export default function HeroSection() {
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
+  const blobUrlRef = useRef(null);
   const [arrowVisible, setArrowVisible] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);   // 0–100
+  const [ready, setReady] = useState(false);              // blob loaded + video seekable
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
+  // ── Load video into blob / cache ──
   useEffect(() => {
+    let objectUrl = null;
+
+    getVideoBlob(setLoadProgress).then((url) => {
+      objectUrl = url;
+      blobUrlRef.current = url;
+      const video = videoRef.current;
+      if (!video) return;
+      video.src = url;
+      video.load();
+      // Wait until the browser has enough data to seek anywhere
+      const onReady = () => setReady(true);
+      video.addEventListener("canplaythrough", onReady, { once: true });
+    }).catch(() => {
+      // Fallback: just use the original src if fetch fails
+      const video = videoRef.current;
+      if (video) { video.src = VIDEO_SRC; video.load(); }
+      setReady(true);
+    });
+
+    return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
+  }, []);
+
+  // ── RAF-throttled scrub ──
+  useEffect(() => {
+    if (!ready) return;
     const video = videoRef.current;
     if (!video) return;
 
     video.pause();
 
-    // RAF-throttled seek: only one seek per animation frame, skip if same value
     let rafId = null;
     let pendingProgress = null;
     let lastSeeked = -1;
@@ -45,16 +113,15 @@ export default function HeroSection() {
       unsubscribe();
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [scrollYProgress]);
+  }, [ready, scrollYProgress]);
 
   return (
     <section ref={sectionRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-[100dvh] min-h-[600px] flex items-center justify-center overflow-hidden">
 
-        {/* HTML5 video — scroll-scrubbed via currentTime */}
+        {/* Video — src set dynamically after blob is ready */}
         <video
           ref={videoRef}
-          src="/assets/truck-vid-scrub.mp4"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ willChange: "contents" }}
           muted
@@ -63,6 +130,24 @@ export default function HeroSection() {
           disablePictureInPicture
           disableRemotePlayback
         />
+
+        {/* Loading overlay — fades out once ready */}
+        <motion.div
+          className="absolute inset-0 z-20 bg-black flex flex-col items-center justify-center gap-4"
+          animate={{ opacity: ready ? 0 : 1 }}
+          transition={{ duration: 0.6 }}
+          style={{ pointerEvents: ready ? "none" : "auto" }}
+        >
+          <img src="/assets/logo.png" alt="" className="h-12 w-auto opacity-80" />
+          <div className="w-48 h-1 rounded-full bg-white/20 overflow-hidden">
+            <motion.div
+              className="h-full bg-primary rounded-full"
+              animate={{ width: `${loadProgress}%` }}
+              transition={{ ease: "linear", duration: 0.2 }}
+            />
+          </div>
+          <p className="text-white/50 text-xs font-body tracking-widest">{loadProgress}%</p>
+        </motion.div>
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
 
