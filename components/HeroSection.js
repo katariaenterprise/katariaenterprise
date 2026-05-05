@@ -67,9 +67,11 @@ export default function HeroSection() {
       if (!video) return;
       video.src = url;
       video.load();
-      // Wait until the browser has enough data to seek anywhere
+      // canplaythrough is unreliable on iOS Safari blob URLs
+      // fall back to canplay or a short timeout if neither fires
       const onReady = () => setReady(true);
       video.addEventListener("canplaythrough", onReady, { once: true });
+      video.addEventListener("canplay", onReady, { once: true });
     }).catch(() => {
       // Fallback: just use the original src if fetch fails
       const video = videoRef.current;
@@ -80,7 +82,7 @@ export default function HeroSection() {
     return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
   }, []);
 
-  // ── RAF-throttled scrub ──
+  // ── Scrub: RAF-throttled + iOS-safe (waits for seeked before next seek) ──
   useEffect(() => {
     if (!ready) return;
     const video = videoRef.current;
@@ -91,27 +93,46 @@ export default function HeroSection() {
     let rafId = null;
     let pendingProgress = null;
     let lastSeeked = -1;
+    let isSeeking = false;
+
+    const doSeek = (p) => {
+      if (video.readyState >= 2 && video.duration && Math.abs(p - lastSeeked) > 0.001) {
+        isSeeking = true;
+        lastSeeked = p;
+        video.currentTime = p * video.duration;
+      }
+    };
 
     const flushSeek = () => {
       rafId = null;
-      if (pendingProgress === null) return;
+      // On iOS, don't stack seeks — wait for seeked event
+      if (isSeeking || pendingProgress === null) return;
       const p = pendingProgress;
       pendingProgress = null;
-      if (video.readyState >= 2 && video.duration && Math.abs(p - lastSeeked) > 0.001) {
-        video.currentTime = p * video.duration;
-        lastSeeked = p;
+      doSeek(p);
+    };
+
+    // iOS fires seeked when the frame is actually ready to display
+    const onSeeked = () => {
+      isSeeking = false;
+      // Drain any pending progress that arrived while we were seeking
+      if (pendingProgress !== null && !rafId) {
+        rafId = requestAnimationFrame(flushSeek);
       }
     };
+
+    video.addEventListener("seeked", onSeeked);
 
     const unsubscribe = scrollYProgress.on("change", (v) => {
       pendingProgress = v;
       setArrowVisible(v < 0.02);
-      if (!rafId) rafId = requestAnimationFrame(flushSeek);
+      if (!rafId && !isSeeking) rafId = requestAnimationFrame(flushSeek);
     });
 
     return () => {
       unsubscribe();
       if (rafId) cancelAnimationFrame(rafId);
+      video.removeEventListener("seeked", onSeeked);
     };
   }, [ready, scrollYProgress]);
 
