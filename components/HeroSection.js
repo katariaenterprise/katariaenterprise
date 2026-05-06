@@ -3,14 +3,23 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 
-const VIDEO_SRC = "/assets/truck-vid-scrub.mp4";
-const CACHE_KEY = "ke-hero-video-v1";
+const VIDEO_SRC_DESKTOP = "/assets/truck-vid-scrub.mp4";
+const VIDEO_SRC_MOBILE = "/assets/truck-vid-scrub-mobile.mp4";
+const CACHE_KEY_DESKTOP = "ke-hero-video-v1";
+const CACHE_KEY_MOBILE = "ke-hero-video-mobile-v1";
 
-async function getVideoBlob(onProgress) {
+function getVideoConfig() {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  return isMobile
+    ? { src: VIDEO_SRC_MOBILE, cacheKey: CACHE_KEY_MOBILE }
+    : { src: VIDEO_SRC_DESKTOP, cacheKey: CACHE_KEY_DESKTOP };
+}
+
+async function getVideoBlob(src, cacheKey, onProgress) {
   // 1. Try Cache API first (persists across page loads)
   if ("caches" in window) {
-    const cache = await caches.open(CACHE_KEY);
-    const cached = await cache.match(VIDEO_SRC);
+    const cache = await caches.open(cacheKey);
+    const cached = await cache.match(src);
     if (cached) {
       onProgress(100);
       return URL.createObjectURL(await cached.blob());
@@ -18,7 +27,7 @@ async function getVideoBlob(onProgress) {
   }
 
   // 2. Fetch with progress tracking
-  const res = await fetch(VIDEO_SRC);
+  const res = await fetch(src);
   const total = Number(res.headers.get("content-length")) || 0;
   const reader = res.body.getReader();
   const chunks = [];
@@ -36,8 +45,8 @@ async function getVideoBlob(onProgress) {
 
   // 3. Store in Cache API for next visit
   if ("caches" in window) {
-    const cache = await caches.open(CACHE_KEY);
-    await cache.put(VIDEO_SRC, new Response(blob.slice(), { headers: { "content-type": "video/mp4" } }));
+    const cache = await caches.open(cacheKey);
+    await cache.put(src, new Response(blob.slice(), { headers: { "content-type": "video/mp4" } }));
   }
 
   return URL.createObjectURL(blob);
@@ -60,7 +69,9 @@ export default function HeroSection() {
   useEffect(() => {
     let objectUrl = null;
 
-    getVideoBlob(setLoadProgress).then((url) => {
+    const { src, cacheKey } = getVideoConfig();
+
+    getVideoBlob(src, cacheKey, setLoadProgress).then((url) => {
       objectUrl = url;
       blobUrlRef.current = url;
       const video = videoRef.current;
@@ -75,7 +86,7 @@ export default function HeroSection() {
     }).catch(() => {
       // Fallback: just use the original src if fetch fails
       const video = videoRef.current;
-      if (video) { video.src = VIDEO_SRC; video.load(); }
+      if (video) { video.src = src; video.load(); }
       setReady(true);
     });
 
@@ -179,7 +190,7 @@ export default function HeroSection() {
             transition={{ delay: 0.2 }}
             className="text-primary-foreground/80 font-body text-sm md:text-base tracking-[0.3em] uppercase mb-4"
           >
-            Welcome To
+            One of India’s Largest FMCG Distribution Networks
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}

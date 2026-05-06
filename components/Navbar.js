@@ -47,7 +47,7 @@ export default function Navbar() {
         : "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
     }`}>
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <a href="#" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <NextImage src="/assets/logo.png" alt="Kataria Enterprise" width={160} height={48} className="object-contain h-10 w-auto" />
         </a>
 
