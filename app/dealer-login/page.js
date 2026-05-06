@@ -32,6 +32,7 @@ export default function DealerLoginPage() {
               alt="Kataria Enterprise"
               width={180}
               height={54}
+              priority
               className="object-contain"
             />
           </a>

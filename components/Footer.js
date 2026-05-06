@@ -3,12 +3,14 @@ import NextImage from "next/image";
 import { Facebook, Instagram, Linkedin, Twitter, MapPin, Phone, Mail } from "lucide-react";
 
 const quickLinks = [
-  { label: "Home",     href: "/" },
-  { label: "About",    href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Network",  href: "/network" },
-  { label: "Awards",   href: "/awards" },
-  { label: "Contact",  href: "/#contact" },
+  { label: "Home",       href: "/" },
+  { label: "About",      href: "/about" },
+  { label: "Management", href: "/management" },
+  { label: "Services",   href: "/services" },
+  { label: "Network",    href: "/network" },
+  { label: "Awards",     href: "/awards" },
+  { label: "Media",      href: "/media" },
+  { label: "Contact",    href: "/#contact" },
 ];
 
 const services = [
@@ -109,7 +111,14 @@ export default function Footer() {
             <ul className="flex flex-col gap-4">
               <li className="flex gap-3 text-sm">
                 <MapPin size={16} className="text-primary shrink-0 mt-0.5" />
-                <span>Tower Building, Kalawad Road,<br />Vad-Vajdi, Rajkot, Gujarat 360021</span>
+                <a
+                  href="https://www.google.com/maps?q=Kataria+Enterprise,Kalawad+Road,Rajkot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  Tower Building, Kalawad Road,<br />Vad-Vajdi, Rajkot, Gujarat 360021
+                </a>
               </li>
               <li>
                 <a
@@ -117,7 +126,16 @@ export default function Footer() {
                   className="flex gap-3 text-sm hover:text-primary-foreground transition-colors"
                 >
                   <Phone size={16} className="text-primary shrink-0 mt-0.5" />
-                  +91 98242 83794 / 83795
+                  +91 98242 83794
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:9824283795"
+                  className="flex gap-3 text-sm hover:text-primary-foreground transition-colors"
+                >
+                  <Phone size={16} className="text-primary shrink-0 mt-0.5" />
+                  +91 98242 83795
                 </a>
               </li>
               <li>
@@ -139,7 +157,7 @@ export default function Footer() {
       <div className="border-t border-primary-foreground/10">
         <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
           <p className="text-primary-foreground/50 italic">
-            "Connecting manufacturers to markets — reliably, every time."
+            "Connecting manufacturers to markets."
           </p>
           <p className="text-primary-foreground/50">
             © {new Date().getFullYear()}{" "}

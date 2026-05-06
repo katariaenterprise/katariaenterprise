@@ -1,5 +1,6 @@
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import BackToTop from "@/components/BackToTop";
 
 export const metadata = {
   title: "Kataria Enterprise",
@@ -10,7 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <SmoothScrollProvider>
+          {children}
+          <BackToTop />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

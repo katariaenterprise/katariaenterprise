@@ -4,6 +4,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 import TypewriterText from "@/components/TypewriterText";
 import Image from "next/image";
 import { MapPin, Building, Users, Truck, Eye, Target, Heart, Map, Handshake } from "lucide-react";
+import CountUp from "@/components/ui/CountUp";
 
 export const metadata = {
   title: "About Us | Kataria Enterprise",
@@ -128,7 +129,7 @@ export default function AboutPage() {
                     <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl gradient-red flex items-center justify-center">
                       <s.icon className="text-primary-foreground" size={22} />
                     </div>
-                    <p className="font-heading font-black text-3xl md:text-4xl text-foreground">{s.value}</p>
+                    <p className="font-heading font-black text-3xl md:text-4xl text-foreground"><CountUp value={s.value} /></p>
                     <p className="text-muted-foreground text-xs md:text-sm font-body">{s.label}</p>
                   </div>
                 </AnimatedSection>

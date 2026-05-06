@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import NextImage from "next/image";
 import Link from "next/link";
@@ -48,7 +49,7 @@ export default function Navbar() {
     }`}>
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <a href="/" className="flex items-center gap-2">
-          <NextImage src="/assets/logo.png" alt="Kataria Enterprise" width={160} height={48} className="object-contain h-10 w-auto" />
+          <NextImage src="/assets/logo.png" alt="Kataria Enterprise" width={160} height={48} priority className="object-contain h-10 w-auto" />
         </a>
 
         <ul className="hidden lg:flex items-center gap-6">
@@ -73,37 +74,55 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <button className={`lg:hidden transition-colors ${isHero ? "text-white" : "text-foreground"}`} onClick={() => setOpen(!open)}>
+        <button className={`lg:hidden transition-colors ${isHero ? "text-white" : "text-foreground"}`} onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"}>
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {open && (
-        <div className={`lg:hidden border-t ${
-          isHero ? "bg-black/40 backdrop-blur-md border-white/10" : "bg-background border-border"
-        }`}>
-          <ul className="flex flex-col p-4 gap-3">
-            {navItems.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className={`block py-2 text-sm font-medium ${
-                    isHero ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-primary"
-                  }`}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={`lg:hidden border-t overflow-hidden ${
+              isHero ? "bg-black/40 backdrop-blur-md border-white/10" : "bg-background border-border"
+            }`}
+          >
+            <ul className="flex flex-col p-4 gap-3">
+              {navItems.map((item, i) => (
+                <motion.li
+                  key={item.label}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05, duration: 0.25, ease: "easeOut" }}
                 >
-                  {item.label}
+                  <Link
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`block py-2 text-sm font-medium ${
+                      isHero ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-primary"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </motion.li>
+              ))}
+              <motion.li
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navItems.length * 0.05, duration: 0.25, ease: "easeOut" }}
+              >
+                <Link href="/dealer-login">
+                  <Button size="sm" className="w-full gradient-red text-primary-foreground">Login</Button>
                 </Link>
-              </li>
-            ))}
-            <li>
-              <Link href="/dealer-login">
-                <Button size="sm" className="w-full gradient-red text-primary-foreground">Login</Button>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
+              </motion.li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

@@ -52,13 +52,28 @@ export default function FleetSection() {
           </p>
         </AnimatedSection>
 
-        {/* ── MOBILE: vertical cards ── */}
+        {/* ── MOBILE: truck top, road middle, details bottom ── */}
         <div className="flex flex-col gap-6 md:hidden">
           {fleet.map((f, i) => (
             <AnimatedSection key={f.tyre} delay={i * 0.1}>
-              <div className="bg-white rounded-2xl shadow-md overflow-hidden flex items-center gap-4 p-4">
-                <Image src={f.image} alt={f.tyre} width={120} height={70} className="object-contain shrink-0" />
-                <div>
+              <div className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col">
+                {/* Truck + Road */}
+                <div className="relative flex justify-center pt-4 px-4">
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-8"
+                    style={{
+                      backgroundColor: "#374151",
+                      backgroundImage: "repeating-linear-gradient(90deg, #facc15 0px, #facc15 32px, transparent 32px, transparent 48px)",
+                      backgroundSize: "48px 4px",
+                      backgroundPosition: "0 center",
+                      backgroundRepeat: "repeat-x",
+                      animation: "road-scroll 0.6s linear infinite",
+                    }}
+                  />
+                  <Image src={f.image} alt={f.tyre} width={200} height={110} className="relative z-10 object-contain" />
+                </div>
+                {/* Details — original layout preserved */}
+                <div className="p-4">
                   <div className="inline-flex items-center gap-1 bg-primary text-primary-foreground text-xs font-heading font-bold px-2 py-0.5 rounded-full mb-2">
                     <Disc3 size={11} />{f.tyre}
                   </div>
