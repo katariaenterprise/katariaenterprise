@@ -150,7 +150,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               {values.map((v, i) => (
                 <AnimatedSection key={v.title} delay={i * 0.15}>
-                  <div className="bg-card border border-border rounded-2xl p-6 md:p-8 flex md:flex-col items-start md:items-center gap-4 md:gap-0 text-left md:text-center hover-lift h-full">
+                  <div className="bg-card border border-border rounded-2xl p-6 md:p-8 flex md:flex-col items-start md:items-center gap-4 md:gap-0 text-left md:text-center hover-lift h-full bg-secondary">
                     <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl gradient-red flex items-center justify-center shrink-0 md:mx-auto md:mb-5">
                       <v.icon className="text-primary-foreground" size={22} />
                     </div>

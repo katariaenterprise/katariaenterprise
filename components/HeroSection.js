@@ -185,7 +185,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-3xl md:text-6xl lg:text-7xl font-heading font-black text-primary-foreground leading-tight mb-4 md:mb-6"
+            className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-primary-foreground leading-tight mb-4 md:mb-6"
           >
             KATARIA ENTERPRISE
           </motion.h1>
