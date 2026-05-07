@@ -7,8 +7,19 @@ import { Warehouse, Network, TrendingUp, ShieldCheck, Clock, HeadphonesIcon } fr
 
 export const metadata = {
   title: "Services | Kataria Enterprise",
-  description:
-    "Explore Kataria Enterprise's end-to-end logistics services — supply chain management, warehousing, distribution and more across 7+ states in India.",
+  description: "Explore Kataria Enterprise's end-to-end logistics services — supply chain management, warehousing, distribution and more across 7+ states in India.",
+  openGraph: {
+    title: "Services | Kataria Enterprise",
+    description: "Explore Kataria Enterprise's end-to-end logistics services — supply chain management, warehousing, distribution and more across 7+ states in India.",
+    url: "https://www.katariaenterprise.com/services",
+    images: [{ url: "/assets/supply-chain1.jpg", width: 1200, height: 630, alt: "Kataria Enterprise Services" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Services | Kataria Enterprise",
+    description: "Explore Kataria Enterprise's end-to-end logistics services — supply chain management, warehousing, distribution and more across 7+ states in India.",
+    images: ["/assets/supply-chain1.jpg"],
+  },
 };
 
 const services = [

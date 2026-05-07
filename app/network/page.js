@@ -7,6 +7,23 @@ import TypewriterText from "@/components/TypewriterText";
 import CountUp from "@/components/ui/CountUp";
 import { MapPin, Map, Landmark, LocateFixed, Handshake, Store, UsersRound, CalendarCheck } from "lucide-react";
 
+export const metadata = {
+  title: "Network | Kataria Enterprise",
+  description: "Kataria Enterprise's distribution network spans 7 states, 280+ districts and 2500+ towns across India — reaching 54 crore+ people.",
+  openGraph: {
+    title: "Network | Kataria Enterprise",
+    description: "Kataria Enterprise's distribution network spans 7 states, 280+ districts and 2500+ towns across India — reaching 54 crore+ people.",
+    url: "https://www.katariaenterprise.com/network",
+    images: [{ url: "/assets/INDIA7.png", width: 1200, height: 630, alt: "Kataria Enterprise Distribution Network" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Network | Kataria Enterprise",
+    description: "Kataria Enterprise's distribution network spans 7 states, 280+ districts and 2500+ towns across India — reaching 54 crore+ people.",
+    images: ["/assets/INDIA7.png"],
+  },
+};
+
 const stats = [
   { icon: MapPin,   value: "7+",    label: "States" },
   { icon: Map,      value: "280+",  label: "Districts" },
