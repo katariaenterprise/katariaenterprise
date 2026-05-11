@@ -7,17 +7,19 @@ import { Warehouse, Network, TrendingUp, ShieldCheck, Clock, HeadphonesIcon } fr
 
 export const metadata = {
   title: "Services | Kataria Enterprise",
-  description: "Explore Kataria Enterprise's end-to-end logistics services — supply chain management, warehousing, distribution and more across 7+ states in India.",
+  description: "Explore Kataria Enterprise's end-to-end FMCG logistics services — supply chain management, warehousing, distribution across 7+ states, 280+ districts in India.",
+  keywords: ["FMCG logistics services", "supply chain management India", "warehouse management services", "distribution network India", "logistics services Gujarat", "Kataria Enterprise services"],
+  alternates: { canonical: "https://www.katariaenterprise.duckdns.org/services" },
   openGraph: {
     title: "Services | Kataria Enterprise",
-    description: "Explore Kataria Enterprise's end-to-end logistics services — supply chain management, warehousing, distribution and more across 7+ states in India.",
-    url: "https://www.katariaenterprise.com/services",
+    description: "Explore Kataria Enterprise's end-to-end FMCG logistics services — supply chain management, warehousing, distribution across 7+ states, 280+ districts in India.",
+    url: "https://www.katariaenterprise.duckdns.org/services",
     images: [{ url: "/assets/supply-chain1.jpg", width: 1200, height: 630, alt: "Kataria Enterprise Services" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Services | Kataria Enterprise",
-    description: "Explore Kataria Enterprise's end-to-end logistics services — supply chain management, warehousing, distribution and more across 7+ states in India.",
+    description: "Explore Kataria Enterprise's end-to-end FMCG logistics services — supply chain management, warehousing, distribution across 7+ states, 280+ districts in India.",
     images: ["/assets/supply-chain1.jpg"],
   },
 };

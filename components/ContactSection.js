@@ -55,7 +55,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="section-padding bg-secondary">
+    <section id="contact" className="section-padding">
       <div className="container mx-auto">
 
         <AnimatedSection className="text-center mb-12">

@@ -8,17 +8,19 @@ import { MapPin, Map, Landmark, LocateFixed, Handshake, Store, UsersRound, Calen
 
 export const metadata = {
   title: "Network | Kataria Enterprise",
-  description: "Kataria Enterprise's distribution network spans 7 states, 280+ districts and 2500+ towns across India — reaching 54 crore+ people.",
+  description: "Kataria Enterprise's FMCG distribution network spans 7 states, 280+ districts, 2500+ towns across India — reaching 54 crore+ people with 1100+ dealers.",
+  keywords: ["FMCG distribution network India", "pan India logistics network", "distribution 7 states India", "Kataria Enterprise network", "logistics Gujarat Rajasthan MP UP"],
+  alternates: { canonical: "https://www.katariaenterprise.duckdns.org/network" },
   openGraph: {
     title: "Network | Kataria Enterprise",
-    description: "Kataria Enterprise's distribution network spans 7 states, 280+ districts and 2500+ towns across India — reaching 54 crore+ people.",
-    url: "https://www.katariaenterprise.com/network",
+    description: "Kataria Enterprise's FMCG distribution network spans 7 states, 280+ districts, 2500+ towns across India — reaching 54 crore+ people with 1100+ dealers.",
+    url: "https://www.katariaenterprise.duckdns.org/network",
     images: [{ url: "/assets/INDIA7.png", width: 1200, height: 630, alt: "Kataria Enterprise Distribution Network" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Network | Kataria Enterprise",
-    description: "Kataria Enterprise's distribution network spans 7 states, 280+ districts and 2500+ towns across India — reaching 54 crore+ people.",
+    description: "Kataria Enterprise's FMCG distribution network spans 7 states, 280+ districts, 2500+ towns across India — reaching 54 crore+ people with 1100+ dealers.",
     images: ["/assets/INDIA7.png"],
   },
 };

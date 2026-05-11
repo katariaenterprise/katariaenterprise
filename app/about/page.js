@@ -8,17 +8,19 @@ import CountUp from "@/components/ui/CountUp";
 
 export const metadata = {
   title: "About Us | Kataria Enterprise",
-  description: "Learn about Kataria Enterprise — 36+ years of powering India's supply chain with reliable logistics, smart warehousing, and an expansive distribution network.",
+  description: "Learn about Kataria Enterprise — 36+ years of powering India's FMCG supply chain with reliable logistics, smart warehousing, and distribution across 7+ states.",
+  keywords: ["Kataria Enterprise about", "FMCG logistics company India", "logistics company Rajkot Gujarat", "supply chain company since 1989", "Kataria Enterprise history"],
+  alternates: { canonical: "https://www.katariaenterprise.duckdns.org/about" },
   openGraph: {
     title: "About Us | Kataria Enterprise",
-    description: "Learn about Kataria Enterprise — 36+ years of powering India's supply chain with reliable logistics, smart warehousing, and an expansive distribution network.",
-    url: "https://www.katariaenterprise.com/about",
+    description: "Learn about Kataria Enterprise — 36+ years of powering India's FMCG supply chain with reliable logistics, smart warehousing, and distribution across 7+ states.",
+    url: "https://www.katariaenterprise.duckdns.org/about",
     images: [{ url: "/assets/company-building.jpg", width: 1200, height: 630, alt: "Kataria Enterprise Office" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "About Us | Kataria Enterprise",
-    description: "Learn about Kataria Enterprise — 36+ years of powering India's supply chain with reliable logistics, smart warehousing, and an expansive distribution network.",
+    description: "Learn about Kataria Enterprise — 36+ years of powering India's FMCG supply chain with reliable logistics, smart warehousing, and distribution across 7+ states.",
     images: ["/assets/company-building.jpg"],
   },
 };

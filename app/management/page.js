@@ -7,17 +7,19 @@ import { Award, Briefcase, TrendingUp, Users } from "lucide-react";
 
 export const metadata = {
   title: "Management | Kataria Enterprise",
-  description: "Meet the leadership team behind Kataria Enterprise — the people driving 36+ years of logistics excellence across India.",
+  description: "Meet the leadership team behind Kataria Enterprise — the people driving 36+ years of FMCG logistics excellence across India.",
+  keywords: ["Kataria Enterprise management", "Vallabhbhai Kataria", "Rimal Kataria", "logistics company leadership India", "FMCG distribution company directors"],
+  alternates: { canonical: "https://www.katariaenterprise.duckdns.org/management" },
   openGraph: {
     title: "Management | Kataria Enterprise",
-    description: "Meet the leadership team behind Kataria Enterprise — the people driving 36+ years of logistics excellence across India.",
-    url: "https://www.katariaenterprise.com/management",
+    description: "Meet the leadership team behind Kataria Enterprise — the people driving 36+ years of FMCG logistics excellence across India.",
+    url: "https://www.katariaenterprise.duckdns.org/management",
     images: [{ url: "/assets/vbk.jpg", width: 1200, height: 630, alt: "Kataria Enterprise Leadership" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Management | Kataria Enterprise",
-    description: "Meet the leadership team behind Kataria Enterprise — the people driving 36+ years of logistics excellence across India.",
+    description: "Meet the leadership team behind Kataria Enterprise — the people driving 36+ years of FMCG logistics excellence across India.",
     images: ["/assets/vbk.jpg"],
   },
 };

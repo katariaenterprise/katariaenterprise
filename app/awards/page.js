@@ -6,17 +6,19 @@ import { Trophy, Award, Star, Medal, ThumbsUp, BadgeCheck } from "lucide-react";
 
 export const metadata = {
   title: "Awards & Recognitions | Kataria Enterprise",
-  description: "Kataria Enterprise's awards and recognitions — celebrating 36+ years of excellence in logistics, supply chain and distribution across India.",
+  description: "Kataria Enterprise's awards and recognitions — celebrating 36+ years of excellence in FMCG logistics, supply chain and distribution across India.",
+  keywords: ["Kataria Enterprise awards", "logistics company awards India", "Apollo CV Awards", "CEAT transportation awards", "best fleet operator India"],
+  alternates: { canonical: "https://www.katariaenterprise.duckdns.org/awards" },
   openGraph: {
     title: "Awards & Recognitions | Kataria Enterprise",
-    description: "Kataria Enterprise's awards and recognitions — celebrating 36+ years of excellence in logistics, supply chain and distribution across India.",
-    url: "https://www.katariaenterprise.com/awards",
+    description: "Kataria Enterprise's awards and recognitions — celebrating 36+ years of excellence in FMCG logistics, supply chain and distribution across India.",
+    url: "https://www.katariaenterprise.duckdns.org/awards",
     images: [{ url: "/assets/logo.png", width: 1200, height: 630, alt: "Kataria Enterprise Awards" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Awards & Recognitions | Kataria Enterprise",
-    description: "Kataria Enterprise's awards and recognitions — celebrating 36+ years of excellence in logistics, supply chain and distribution across India.",
+    description: "Kataria Enterprise's awards and recognitions — celebrating 36+ years of excellence in FMCG logistics, supply chain and distribution across India.",
     images: ["/assets/logo.png"],
   },
 };

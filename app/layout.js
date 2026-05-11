@@ -2,14 +2,47 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import BackToTop from "@/components/BackToTop";
 
+const BASE_URL = "https://www.katariaenterprise.duckdns.org";
+const TITLE = "Kataria Enterprise | FMCG Logistics & Distribution India";
+const DESC = "Kataria Enterprise — India's trusted FMCG logistics, supply chain & distribution company since 1989. Serving 7+ states, 280+ districts, 1100+ dealers with 330+ containerised trucks.";
+
 export const metadata = {
-  title: "Kataria Enterprise",
-  description: "Powering India's supply chain with reliable logistics, smart warehousing, and an expansive distribution network across 7+ states since 1989.",
-  metadataBase: new URL("https://www.katariaenterprise.com"),
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: TITLE,
+    template: "%s | Kataria Enterprise",
+  },
+  description: DESC,
+  keywords: [
+    "Kataria Enterprise",
+    "kataria enterprise rajkot",
+    "FMCG distribution India",
+    "logistics company Gujarat",
+    "supply chain management India",
+    "warehouse management Gujarat",
+    "distribution network India",
+    "Balaji Wafers distributor",
+    "Coca-Cola distributor India",
+    "Vadilal distributor",
+    "FMCG logistics company",
+    "pan India distribution",
+    "containerised truck logistics",
+  ],
+  authors: [{ name: "Kataria Enterprise", url: BASE_URL }],
+  creator: "Kataria Enterprise",
+  publisher: "Kataria Enterprise",
+  alternates: {
+    canonical: BASE_URL,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
+  },
   openGraph: {
-    title: "Kataria Enterprise",
-    description: "Powering India's supply chain with reliable logistics, smart warehousing, and an expansive distribution network across 7+ states since 1989.",
-    url: "https://www.katariaenterprise.com",
+    title: TITLE,
+    description: DESC,
+    url: BASE_URL,
     siteName: "Kataria Enterprise",
     images: [{ url: "/assets/logo.png", width: 1200, height: 630, alt: "Kataria Enterprise" }],
     locale: "en_IN",
@@ -17,15 +50,47 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kataria Enterprise",
-    description: "Powering India's supply chain with reliable logistics, smart warehousing, and an expansive distribution network across 7+ states since 1989.",
+    title: TITLE,
+    description: DESC,
     images: ["/assets/logo.png"],
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Kataria Enterprise",
+  url: BASE_URL,
+  logo: `${BASE_URL}/assets/logo.png`,
+  description: DESC,
+  foundingDate: "1989",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Tower Building, Kalawad Road, Vad-Vajdi",
+    addressLocality: "Rajkot",
+    addressRegion: "Gujarat",
+    postalCode: "360021",
+    addressCountry: "IN",
+  },
+  contactPoint: [
+    { "@type": "ContactPoint", telephone: "+91-9824283794", contactType: "customer service" },
+    { "@type": "ContactPoint", telephone: "+91-9824283795", contactType: "customer service" },
+  ],
+  email: "contact@katariaenterprise.com",
+  sameAs: [BASE_URL],
+  areaServed: ["Gujarat", "Rajasthan", "Madhya Pradesh", "Uttar Pradesh", "Haryana", "Delhi", "Bihar"],
+  numberOfEmployees: { "@type": "QuantitativeValue", value: 250 },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body>
         <SmoothScrollProvider>
           {children}
