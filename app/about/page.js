@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import TypewriterText from "@/components/TypewriterText";
 import Image from "next/image";
-import { MapPin, Building, Users, Truck, Eye, Target, Heart, Map, Handshake } from "lucide-react";
+import { MapPin, Truck, Eye, Target, Heart, Map, Handshake } from "lucide-react";
 import CountUp from "@/components/ui/CountUp";
 
 export const metadata = {

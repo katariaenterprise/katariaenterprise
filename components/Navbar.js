@@ -35,8 +35,12 @@ export default function Navbar() {
   function handleNavClick(e, href) {
     if (href.startsWith("/#") && isHomePage) {
       e.preventDefault();
-      const id = href.slice(2);
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      const target = href.slice(1);
+      if (window.__lenis) {
+        window.__lenis.scrollTo(target);
+      } else {
+        document.getElementById(target.slice(1))?.scrollIntoView({ behavior: "smooth" });
+      }
       setOpen(false);
     }
   }

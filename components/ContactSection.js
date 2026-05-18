@@ -1,8 +1,58 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
-import { Mail, Phone, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Mail, Phone, ArrowUpRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+
+function BranchMap({ mapSrc, title }) {
+  const [interactive, setInteractive] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    setInteractive(false);
+  }, [mapSrc]);
+
+  useEffect(() => {
+    if (!interactive) return;
+    function onPointerDown(e) {
+      if (!containerRef.current?.contains(e.target)) setInteractive(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [interactive]);
+
+  return (
+    <motion.div
+      ref={containerRef}
+      className="relative rounded-2xl overflow-hidden shadow-lg w-full h-[300px] md:h-[460px]"
+    >
+      <iframe
+        src={mapSrc}
+        width="100%"
+        height="100%"
+        style={{ border: 0, pointerEvents: interactive ? "auto" : "none" }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title={title}
+        tabIndex={interactive ? 0 : -1}
+      />
+      {!interactive && (
+        <button
+          type="button"
+          onClick={() => setInteractive(true)}
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-foreground/5 hover:bg-foreground/10 transition-colors cursor-pointer"
+          aria-label="Enable map interaction"
+        >
+          <span className="flex items-center gap-2 rounded-full bg-background/95 px-4 py-2 text-sm font-medium text-foreground shadow-md">
+            <MapPin size={16} className="text-primary" />
+            Click to interact with map
+          </span>
+        </button>
+      )}
+    </motion.div>
+  );
+}
 
 const branches = [
   {
@@ -141,18 +191,8 @@ export default function ContactSection() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="rounded-2xl overflow-hidden shadow-lg w-full h-[300px] md:h-[460px]"
             >
-              <iframe
-                src={branch.mapSrc}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={branch.heading}
-              />
+              <BranchMap mapSrc={branch.mapSrc} title={branch.heading} />
             </motion.div>
           </AnimatePresence>
         </AnimatedSection>
@@ -162,7 +202,7 @@ export default function ContactSection() {
           {branches.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => go(i)}
               className={`h-2 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-primary" : "w-2 bg-border"}`}
             />
           ))}

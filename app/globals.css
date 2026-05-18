@@ -44,6 +44,12 @@
   to   { background-position: 48px center; }
 }
 
+/* During Lenis momentum, don't let iframes steal wheel events */
+.lenis.lenis-scrolling iframe,
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 @layer components {
   .section-padding { @apply py-16 md:py-24 px-4 md:px-8; }
   .section-title { @apply text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-foreground; }
