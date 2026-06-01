@@ -3,156 +3,108 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 
-const VIDEO_SRC = "/assets/truck-vid-scrub.mp4";
-const CACHE_KEY = "ke-hero-video-v1";
-
-async function getVideoBlob(onProgress) {
-  // 1. Try Cache API first (persists across page loads)
-  if ("caches" in window) {
-    const cache = await caches.open(CACHE_KEY);
-    const cached = await cache.match(VIDEO_SRC);
-    if (cached) {
-      onProgress(100);
-      return URL.createObjectURL(await cached.blob());
-    }
-  }
-
-  // 2. Fetch with progress tracking
-  const res = await fetch(VIDEO_SRC);
-  const total = Number(res.headers.get("content-length")) || 0;
-  const reader = res.body.getReader();
-  const chunks = [];
-  let received = 0;
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    chunks.push(value);
-    received += value.length;
-    if (total) onProgress(Math.round((received / total) * 100));
-  }
-
-  const blob = new Blob(chunks, { type: "video/mp4" });
-
-  // 3. Store in Cache API for next visit
-  if ("caches" in window) {
-    const cache = await caches.open(CACHE_KEY);
-    await cache.put(VIDEO_SRC, new Response(blob.slice(), { headers: { "content-type": "video/mp4" } }));
-  }
-
-  return URL.createObjectURL(blob);
-}
+// ── Config ──────────────────────────────────────────────────────────────────
+const FRAME_COUNT = 150;
+const FRAME_PATH  = (i) => `/assets/hero-sec/ezgif-frame-${String(i).padStart(3, "0")}.jpg`;
+// ────────────────────────────────────────────────────────────────────────────
 
 export default function HeroSection() {
-  const sectionRef = useRef(null);
-  const videoRef = useRef(null);
-  const blobUrlRef = useRef(null);
-  const [arrowVisible, setArrowVisible] = useState(true);
-  const [loadProgress, setLoadProgress] = useState(0);   // 0–100
-  const [ready, setReady] = useState(false);              // blob loaded + video seekable
+  const sectionRef  = useRef(null);
+  const canvasRef   = useRef(null);
+  const framesRef   = useRef([]);                 // loaded Image objects
+  const currentRef  = useRef(0);                  // last drawn frame index
+  const rafRef      = useRef(null);
+
+  const [loaded, setLoaded]       = useState(0);  // count of loaded frames
+  const [ready, setReady]         = useState(false);
+  const [arrowVisible, setArrow]  = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  // ── Load video into blob / cache ──
+  // ── Preload all frames ───────────────────────────────────────────────────
   useEffect(() => {
-    let objectUrl = null;
+    let loadedCount = 0;
+    const images = [];
 
-    getVideoBlob(setLoadProgress).then((url) => {
-      objectUrl = url;
-      blobUrlRef.current = url;
-      const video = videoRef.current;
-      if (!video) return;
-      video.src = url;
-      video.load();
-      // canplaythrough is unreliable on iOS Safari blob URLs
-      // fall back to canplay or a short timeout if neither fires
-      const onReady = () => setReady(true);
-      video.addEventListener("canplaythrough", onReady, { once: true });
-      video.addEventListener("canplay", onReady, { once: true });
-    }).catch(() => {
-      // Fallback: just use the original src if fetch fails
-      const video = videoRef.current;
-      if (video) { video.src = VIDEO_SRC; video.load(); }
-      setReady(true);
-    });
+    for (let i = 1; i <= FRAME_COUNT; i++) {
+      const img = new Image();
+      img.src = FRAME_PATH(i);
+      img.onload = () => {
+        loadedCount++;
+        setLoaded(loadedCount);
+        if (loadedCount === FRAME_COUNT) setReady(true);
+      };
+      img.onerror = () => {
+        // count errored frames too so loading doesn't stall
+        loadedCount++;
+        setLoaded(loadedCount);
+        if (loadedCount === FRAME_COUNT) setReady(true);
+      };
+      images.push(img);
+    }
 
-    return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
+    framesRef.current = images;
   }, []);
 
-  // ── Scrub: RAF-throttled + iOS-safe (waits for seeked before next seek) ──
+  // ── Draw first frame once ready ──────────────────────────────────────────
   useEffect(() => {
     if (!ready) return;
-    const video = videoRef.current;
-    if (!video) return;
+    const canvas = canvasRef.current;
+    const ctx    = canvas?.getContext("2d");
+    const frame  = framesRef.current[0];
+    if (ctx && frame?.complete && frame.naturalWidth > 0)
+      ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+  }, [ready]);
 
-    video.pause();
+  // ── Scrub on scroll ──────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!ready) return;
 
-    let rafId = null;
-    let pendingProgress = null;
-    let lastSeeked = -1;
-    let isSeeking = false;
-
-    const doSeek = (p) => {
-      if (video.readyState >= 2 && video.duration && Math.abs(p - lastSeeked) > 0.001) {
-        isSeeking = true;
-        lastSeeked = p;
-        video.currentTime = p * video.duration;
-      }
+    const drawFrame = (index) => {
+      const canvas = canvasRef.current;
+      const ctx    = canvas?.getContext("2d");
+      const frame  = framesRef.current[index];
+      if (!ctx || !frame?.complete || frame.naturalWidth === 0) return;
+      ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+      currentRef.current = index;
     };
-
-    const flushSeek = () => {
-      rafId = null;
-      // On iOS, don't stack seeks — wait for seeked event
-      if (isSeeking || pendingProgress === null) return;
-      const p = pendingProgress;
-      pendingProgress = null;
-      doSeek(p);
-    };
-
-    // iOS fires seeked when the frame is actually ready to display
-    const onSeeked = () => {
-      isSeeking = false;
-      // Drain any pending progress that arrived while we were seeking
-      if (pendingProgress !== null && !rafId) {
-        rafId = requestAnimationFrame(flushSeek);
-      }
-    };
-
-    video.addEventListener("seeked", onSeeked);
 
     const unsubscribe = scrollYProgress.on("change", (v) => {
-      pendingProgress = v;
-      setArrowVisible(v < 0.02);
-      if (!rafId && !isSeeking) rafId = requestAnimationFrame(flushSeek);
+      setArrow(v < 0.02);
+      const index = Math.min(
+        Math.floor(v * FRAME_COUNT),
+        FRAME_COUNT - 1
+      );
+      if (index === currentRef.current) return;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => drawFrame(index));
     });
 
     return () => {
       unsubscribe();
-      if (rafId) cancelAnimationFrame(rafId);
-      video.removeEventListener("seeked", onSeeked);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [ready, scrollYProgress]);
+
+  const progress = Math.round((loaded / FRAME_COUNT) * 100);
 
   return (
     <section ref={sectionRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-[100dvh] min-h-[600px] flex items-center justify-center overflow-hidden">
 
-        {/* Video — src set dynamically after blob is ready */}
-        <video
-          ref={videoRef}
+        {/* Canvas — frame sequence renders here */}
+        <canvas
+          ref={canvasRef}
+          width={1280}
+          height={720}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ willChange: "contents" }}
-          muted
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          disableRemotePlayback
+          style={{ objectFit: "cover" }}
         />
 
-        {/* Loading overlay — fades out once ready */}
+        {/* Loading overlay */}
         <motion.div
           className="absolute inset-0 z-20 bg-black flex flex-col items-center justify-center gap-4"
           animate={{ opacity: ready ? 0 : 1 }}
@@ -163,11 +115,11 @@ export default function HeroSection() {
           <div className="w-48 h-1 rounded-full bg-white/20 overflow-hidden">
             <motion.div
               className="h-full bg-primary rounded-full"
-              animate={{ width: `${loadProgress}%` }}
+              animate={{ width: `${progress}%` }}
               transition={{ ease: "linear", duration: 0.2 }}
             />
           </div>
-          <p className="text-white/50 text-xs font-body tracking-widest">{loadProgress}%</p>
+          <p className="text-white/50 text-xs font-body tracking-widest">{progress}%</p>
         </motion.div>
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
@@ -179,7 +131,7 @@ export default function HeroSection() {
             transition={{ delay: 0.2 }}
             className="text-primary-foreground/80 font-body text-sm md:text-base tracking-[0.3em] uppercase mb-4"
           >
-            One of India’s Largest FMCG Distribution Networks
+            One of India's Largest FMCG Distribution Networks
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
