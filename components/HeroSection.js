@@ -24,32 +24,43 @@ export default function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  // ── Preload all frames ───────────────────────────────────────────────────
+  // ── Preload frames: first frame immediately, rest after idle ────────────
   useEffect(() => {
-    let loadedCount = 0;
-    const images = [];
-
-    for (let i = 1; i <= FRAME_COUNT; i++) {
-      const img = new Image();
-      img.src = FRAME_PATH(i);
-      img.onload = () => {
-        loadedCount++;
-        setLoaded(loadedCount);
-        if (loadedCount === FRAME_COUNT) setReady(true);
-      };
-      img.onerror = () => {
-        // count errored frames too so loading doesn't stall
-        loadedCount++;
-        setLoaded(loadedCount);
-        if (loadedCount === FRAME_COUNT) setReady(true);
-      };
-      images.push(img);
-    }
-
+    const images = new Array(FRAME_COUNT).fill(null);
     framesRef.current = images;
+    let loadedCount = 0;
+
+    const onEach = () => {
+      loadedCount++;
+      setLoaded(loadedCount);
+      if (loadedCount === FRAME_COUNT) setReady(true);
+    };
+
+    const loadImage = (i) => {
+      const img = new Image();
+      img.onload  = () => { images[i] = img; onEach(); };
+      img.onerror = () => { onEach(); }; // count failures so loading never stalls
+      img.src = FRAME_PATH(i + 1);
+    };
+
+    // Load frame 0 immediately so canvas shows something fast
+    loadImage(0);
+
+    // Load the rest after the browser is idle (doesn't block page render)
+    let i = 1;
+    const scheduleNext = () => {
+      if (i >= FRAME_COUNT) return;
+      const idx = i++;
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(() => { loadImage(idx); scheduleNext(); }, { timeout: 200 });
+      } else {
+        setTimeout(() => { loadImage(idx); scheduleNext(); }, 16);
+      }
+    };
+    scheduleNext();
   }, []);
 
-  // ── Draw first frame once ready ──────────────────────────────────────────
+  // ── Draw first frame as soon as it loads ──────────────────────────────────
   useEffect(() => {
     if (!ready) return;
     const canvas = canvasRef.current;
