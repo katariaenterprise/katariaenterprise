@@ -33,7 +33,7 @@ var map_cfg = {
  "mapId": "7f5w8",
  "map_data": {
   "st1": {
-   "name": "Andaman and Nicobar Islands",
+   "name": "Andaman and Nicobar Islands", 
    "shortname": "AN",
    "comment": "",
    "link": "",
