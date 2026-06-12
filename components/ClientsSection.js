@@ -20,7 +20,7 @@ export default function ClientsSection() {
             <AnimatedSection key={c.name} delay={i * 0.1}>
               <div className="bg-white rounded-2xl p-5 md:p-6 text-center hover-lift cursor-pointer flex sm:flex-col items-center gap-4 sm:gap-0">
                 <div className="w-16 h-16 sm:w-24 sm:h-24 flex items-center justify-center sm:mx-auto sm:mb-4 shrink-0">
-                  <img src={c.logo} alt={c.name} className="object-contain w-full h-full" />
+                  <img src={c.logo} alt={c.name} className="object-contain w-full h-full" loading="lazy" />
                 </div>
                 <div className="text-left sm:text-center">
                   <h3 className="font-heading font-bold text-base md:text-lg text-primary">{c.name}</h3>

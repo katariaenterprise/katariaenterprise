@@ -1,6 +1,7 @@
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import BackToTop from "@/components/BackToTop";
+import CustomCursor from "@/components/CustomCursor";
 
 const BASE_URL = "https://www.katariaenterprise.duckdns.org";
 const TITLE = "Kataria Enterprise | FMCG Logistics & Distribution India";
@@ -89,6 +90,11 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
+          rel="preload"
+          as="image"
+          href="/assets/logo.png"
+        />
+        <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap"
         />
@@ -98,6 +104,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <CustomCursor />
         <SmoothScrollProvider>
           {children}
           <BackToTop />

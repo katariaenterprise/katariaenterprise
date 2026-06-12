@@ -70,7 +70,7 @@ export default function FleetSection() {
                       animation: "road-scroll 0.6s linear infinite",
                     }}
                   />
-                  <Image src={f.image} alt={f.tyre} width={200} height={110} className="relative z-10 object-contain" />
+                  <Image src={f.image} alt={f.tyre} width={200} height={110} className="relative z-10 object-contain" loading="lazy" quality={85} />
                 </div>
                 {/* Details — original layout preserved */}
                 <div className="p-4">
@@ -145,6 +145,8 @@ export default function FleetSection() {
                       width={280}
                       height={160}
                       className="object-contain drop-shadow-xl"
+                      loading="lazy"
+                      quality={85}
                     />
                   </div>
                 ))}

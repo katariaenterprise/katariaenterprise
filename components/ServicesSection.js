@@ -20,7 +20,7 @@ export default function ServicesSection() {
           {services.map((s, i) => (
             <AnimatedSection key={s.title} delay={i * 0.15}>
               <div className="group relative rounded-xl overflow-hidden h-64 md:h-80 hover-lift cursor-pointer">
-                <Image src={s.image} alt={s.title} fill className="object-cover hover-zoom" sizes="(max-width: 768px) 100vw, 33vw" />
+                <Image src={s.image} alt={s.title} fill className="object-cover hover-zoom" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" quality={85} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <h3 className="font-heading font-bold text-lg md:text-xl text-primary-foreground mb-1">{s.title}</h3>

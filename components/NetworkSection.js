@@ -22,6 +22,8 @@ export default function NetworkSection() {
                 width={500}
                 height={600}
                 className="w-full max-w-[260px] md:max-w-sm mx-auto object-contain drop-shadow-xl"
+                loading="lazy"
+                quality={85}
               />
             </div>
           </AnimatedSection>

@@ -1,29 +1,15 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
 import TypewriterText from "@/components/TypewriterText";
 import CountUp from "@/components/ui/CountUp";
-import { MapPin, Map, Landmark, LocateFixed, Handshake, Store, UsersRound, CalendarCheck } from "lucide-react";
+import IndianInteractiveMap from "@/components/IndianInteractiveMap";
+import { MapPin, Map, Landmark, LocateFixed, Handshake, Store, UsersRound, CalendarCheck, X } from "lucide-react";
 
-export const metadata = {
-  title: "Network | Kataria Enterprise",
-  description: "Kataria Enterprise's FMCG distribution network spans 7 states, 280+ districts, 2500+ towns across India — reaching 54 crore+ people with 1100+ dealers.",
-  keywords: ["FMCG distribution network India", "pan India logistics network", "distribution 7 states India", "Kataria Enterprise network", "logistics Gujarat Rajasthan MP UP"],
-  alternates: { canonical: "https://www.katariaenterprise.duckdns.org/network" },
-  openGraph: {
-    title: "Network | Kataria Enterprise",
-    description: "Kataria Enterprise's FMCG distribution network spans 7 states, 280+ districts, 2500+ towns across India — reaching 54 crore+ people with 1100+ dealers.",
-    url: "https://www.katariaenterprise.duckdns.org/network",
-    images: [{ url: "/assets/INDIA7.png", width: 1200, height: 630, alt: "Kataria Enterprise Distribution Network" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Network | Kataria Enterprise",
-    description: "Kataria Enterprise's FMCG distribution network spans 7 states, 280+ districts, 2500+ towns across India — reaching 54 crore+ people with 1100+ dealers.",
-    images: ["/assets/INDIA7.png"],
-  },
-};
+
 
 const stats = [
   { icon: MapPin,   value: "7+",    label: "States" },
@@ -36,9 +22,20 @@ const stats = [
   { icon: CalendarCheck, value: "300+",    label: "Dealers/Day" },
 ];
 
+const stateMapping = {
+  "st11": "GJ",
+  "st29": "RJ",
+  "st23": "MP",
+  "st34": "UP",
+  "st13": "HR",
+  "st9": "DL",
+  "st5": "BR"
+};
+
 const states = [
   {
     code: "GJ",
+    mapCode: "st11",
     name: "Gujarat",
     image: "/assets/GJ.png",
     districts: "33",
@@ -47,6 +44,7 @@ const states = [
   },
   {
     code: "RJ",
+    mapCode: "st29",
     name: "Rajasthan",
     image: "/assets/RJ.png",
     districts: "50+",
@@ -55,6 +53,7 @@ const states = [
   },
   {
     code: "MP",
+    mapCode: "st23",
     name: "Madhya Pradesh",
     image: "/assets/MP.png",
     districts: "52+",
@@ -63,6 +62,7 @@ const states = [
   },
   {
     code: "UP",
+    mapCode: "st34",
     name: "Uttar Pradesh",
     image: "/assets/UP.png",
     districts: "75+",
@@ -71,6 +71,7 @@ const states = [
   },
   {
     code: "HR",
+    mapCode: "st13",
     name: "Haryana",
     image: "/assets/HR.png",
     districts: "22+",
@@ -79,6 +80,7 @@ const states = [
   },
   {
     code: "DL",
+    mapCode: "st9",
     name: "Delhi",
     image: "/assets/DL.png",
     districts: "11+",
@@ -86,7 +88,8 @@ const states = [
     desc: "Full coverage of the national capital region including all major wholesale and retail markets.",
   },
   {
-    code: "BH",
+    code: "BR",
+    mapCode: "st5",
     name: "Bihar",
     image: "/assets/BH.png",
     districts: "38+",
@@ -103,6 +106,16 @@ const states = [
 // ];
 
 export default function NetworkPage() {
+  const [selectedState, setSelectedState] = useState(null);
+
+  const handleStateClick = (mapCode) => {
+    const stateCode = stateMapping[mapCode];
+    const state = states.find(s => s.code === stateCode);
+    if (state) {
+      setSelectedState(state);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -141,42 +154,35 @@ export default function NetworkPage() {
           </div>
         </section>
 
-        {/* ── India Map + Coverage ──
+        {/* ── Interactive Map Section ── */}
         <section className="section-padding bg-secondary">
           <div className="container mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <AnimatedSection>
                 <div className="relative flex items-center justify-center">
-                  <Image
-                    src="/assets/INDIA7.png"
-                    alt="Kataria Enterprise distribution network across India"
-                    width={500}
-                    height={600}
-                    className="w-full max-w-sm mx-auto object-contain drop-shadow-xl"
-                  />
+                  <div className="bg-card border border-border rounded-2xl p-6 w-full">
+                    <IndianInteractiveMap onStateClick={handleStateClick} />
+                  </div>
                 </div>
               </AnimatedSection>
 
               <AnimatedSection delay={0.2}>
-                <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-3">Coverage</p>
+                <p className="text-primary font-heading font-semibold text-sm uppercase tracking-widest mb-3">Interactive Coverage Map</p>
                 <h2 className="section-title mb-4 leading-snug">
                   Connecting India's Supply Chain From Gujarat to Bihar
                 </h2>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-8">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   Headquartered in Rajkot, Gujarat, our logistics network spans 7 states and 280+ districts — ensuring reliable, on-time delivery for India's leading manufacturers across 54 crore+ people.
                 </p>
-                <div className="grid grid-cols-2 gap-4">
-                  {coverageStats.map((s) => (
-                    <div key={s.label} className="bg-background border border-border rounded-xl p-5 text-center hover-lift">
-                      <p className="font-heading font-black text-3xl text-primary"><CountUp value={s.value} /></p>
-                      <p className="text-muted-foreground text-xs mt-1">{s.label}</p>
-                    </div>
-                  ))}
+                <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-4">
+                  <p className="text-sm text-foreground font-medium flex items-center gap-2">
+                    <span className="text-primary">💡</span> Click on any red state to view detailed network information
+                  </p>
                 </div>
               </AnimatedSection>
             </div>
           </div>
-        </section> */}
+        </section>
 
         {/* ── States Grid ── */}
         <section className="section-padding bg-secondary">
@@ -221,6 +227,67 @@ export default function NetworkPage() {
 
       </main>
       <Footer />
+
+      {/* State Details Modal */}
+      {selectedState && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setSelectedState(null)}>
+          <div className="bg-card border-2 border-primary rounded-2xl max-w-2xl w-full p-6 md:p-8 relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedState(null)}
+              className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary transition-colors"
+              aria-label="Close"
+            >
+              <X size={24} className="text-foreground" />
+            </button>
+            
+            <div className="flex flex-col md:flex-row gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-secondary flex items-center justify-center p-4">
+                  <Image
+                    src={selectedState.image}
+                    alt={selectedState.name}
+                    width={128}
+                    height={128}
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex-1">
+                <h3 className="font-heading font-black text-3xl md:text-4xl text-foreground mb-2">
+                  {selectedState.name}
+                </h3>
+                
+                <div className="flex gap-4 mb-4">
+                  <div className="flex items-center gap-2">
+                    <Map size={16} className="text-primary" />
+                    <span className="text-sm text-muted-foreground">{selectedState.districts} Districts</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Landmark size={16} className="text-primary" />
+                    <span className="text-sm text-muted-foreground">{selectedState.towns} Towns</span>
+                  </div>
+                </div>
+                
+                <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                  {selectedState.desc}
+                </p>
+                
+                <div className="flex flex-wrap gap-3">
+                  <div className="px-4 py-2 bg-secondary rounded-lg">
+                    <p className="text-xs text-muted-foreground">Coverage</p>
+                    <p className="font-heading font-bold text-lg text-primary">Extensive</p>
+                  </div>
+                  <div className="px-4 py-2 bg-secondary rounded-lg">
+                    <p className="text-xs text-muted-foreground">Network</p>
+                    <p className="font-heading font-bold text-lg text-primary">Strong</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
