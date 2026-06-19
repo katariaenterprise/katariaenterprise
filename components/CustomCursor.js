@@ -6,6 +6,10 @@ export default function CustomCursor() {
   const rotationRef = useRef(0);
 
   useEffect(() => {
+    // Hide cursor on touch devices
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
     const cursor = cursorRef.current;
     if (!cursor) return;
 
@@ -19,7 +23,7 @@ export default function CustomCursor() {
 
     // Constant rotation animation
     const animate = () => {
-      rotationRef.current += 2; // Speed of rotation (degrees per frame)
+      rotationRef.current += 2;
       const img = cursor?.querySelector('img');
       if (img) {
         img.style.transform = `translate(-50%, -50%) rotate(${rotationRef.current}deg)`;
@@ -44,7 +48,7 @@ export default function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className="custom-cursor"
+      className="custom-cursor hidden md:block"
       style={{
         position: "fixed",
         pointerEvents: "none",

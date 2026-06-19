@@ -41,8 +41,8 @@ export default function Navbar() {
       } else {
         document.getElementById(target.slice(1))?.scrollIntoView({ behavior: "smooth" });
       }
-      setOpen(false);
     }
+    setOpen(false);
   }
 
   return (
